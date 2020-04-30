@@ -6,4 +6,4 @@ In my opinion, this was one of the most interesting challences of this CTF as it
 We were given a snapshop of a computer, in .tar format:
 `dfdfdfd.tar`
 
-
+![puppy](puppy.jpg)
