@@ -12,8 +12,8 @@ root@kali:~/Downloads/introseccon# tar xvf look_into_the_past.tar
 ```
 
 Sure enough, the archive contained a computer snapshot with most usual folders that we find on linux hosts:
-SH
-```sh
+
+```js
 root@kali:~/Downloads/introseccon# ll look_into_the_past
 total 80
 drwxr-xr-x 20 bob  bob  4096 Feb  8 11:24 .
