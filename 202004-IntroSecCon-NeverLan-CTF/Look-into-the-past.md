@@ -7,13 +7,13 @@ April 27, 2020
 In my opinion, this was one of the most interesting challences of this CTF as it was a mix of a few different sub-challenges to solve.
 
 We were given a snapshop of a computer, in .tar format. After downloading it, we extract its content:
-```javascript
+```shell
 root@kali:~/Downloads/introseccon# tar xvf look_into_the_past.tar 
 ```
 
 Sure enough, the archive contained a computer snapshot with most usual folders that we find on linux hosts:
 
-```Shell
+```console
 root@kali:~/Downloads/introseccon# ll look_into_the_past
 total 80
 drwxr-xr-x 20 bob  bob  4096 Feb  8 11:24 .
