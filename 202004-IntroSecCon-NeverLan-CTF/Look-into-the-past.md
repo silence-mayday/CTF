@@ -39,3 +39,16 @@ drwxr-xr-x  9 bob  bob  4096 Feb  8 11:24 var
 ```
 
 Given the title of the challenge "Look into the past", I first thought that I would go check the logs, in /var/log but that directory was empty. So the next interesting place to check out was the /home/ directory.
+
+## This is header 2
+
+### This is header 3
+
+```javascript
+var fun = function lang(l) {
+  dateformat.i18n = require('./lang/' + l)
+  return true;
+}
+```
+
+
