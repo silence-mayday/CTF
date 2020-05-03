@@ -61,7 +61,7 @@ drwxr-xr-x 2 bob bob 4096 Feb  8 11:24 Videos
 ```
 
 We went through all of these folders and found that only **Documents** and **Pictures** were of interest.
-Also, we checked the `.bash_history` file for any interesting information and found a few clues. Obviously, "Look into the past" meant to go check out the bash history.
+Also, we checked the `.bash_history` file for any interesting information and found a few clues. Obviously, "Look into the past" meant to go check out the bash history. So let's look at that first.
 
 ## .bash_history
 
@@ -69,18 +69,16 @@ This is the full dump of what was in the `.bash_history` file:
 
 ```console
 root@kali:~/look_into_the_past/home/User# more .bash_history 
-cd Documents
-openssl enc -aes-256-cbc -salt -in flag.txt -out flag.txt.enc -k $(cat $pass1)$pass2$pass3
-steghide embed -cf doggo.jpeg -ef $pass1 
-mv doggo.jpeg ~/Pictures
-useradd -p '$pass2'  user
-sqlite3 /opt/table.db "INSERT INTO passwords values ('1', $pass3)"
-tar -zcf /opt/table.db.tar.gz /opt/table.db
-rm $pass1
-unset $pass2
-unset $pass3
-exit
 ```
+![](bash_history.png)
+
+As we can see, during this user's last bash session, at some point they:
+
+* **Lines 1 & 2** went to the ~/Documents/ folder and encoded the file `flag.txt` with AES 256, with salt, and as a password, used a combination of 3 strings, `$pass1`, `$pass2`, and `$pass3`.
+* **Lines 3 & 4** used `steghide` to embed `$pass1` into an image and then moved this image file to ~/Pictures
+* **Line 5** created a user called `user` and assigned `$pass2` to this user.
+* **Lines 6 & 7** inserted `$pass3` into the passwords table of a SQLite 3 database in the `/opt/` folder and then tar'd the
+
 
 ## Documents
 
