@@ -68,9 +68,19 @@ Also, we checked the `.bash_history` file for any interesting information and fo
 This is the full dump of what was in the `.bash_history` file:
 
 ```console
-root@kali:~/look_into_the_past/home/User# more .bash_history 
+cd Documents
+openssl enc -aes-256-cbc -salt -in flag.txt -out flag.txt.enc -k $(cat $pass1)$p
+ass2$pass3
+steghide embed -cf doggo.jpeg -ef $pass1 
+mv doggo.jpeg ~/Pictures
+useradd -p '$pass2'  user
+sqlite3 /opt/table.db "INSERT INTO passwords values ('1', $pass3)"
+tar -zcf /opt/table.db.tar.gz /opt/table.db
+rm $pass1
+unset $pass2
+unset $pass3
+exit
 ```
-![](bash_history.png)
 
 As we can see, during this user's last bash session, at some point they:
 
@@ -162,8 +172,20 @@ So that was probably an intentional hint to help those who couldn't or wouldn't 
 
 ## $pass2 - New user
 
+As we saw in the `.bash_history` file:
+> useradd -p '$pass2'  user
 
+A user was added, called user, and the password assigned to this user was `$pass2`.
+Let's do a quick `grep` of the `/etc/shadow` file which contains the local machine's users' password hashes:
 
+```console
+root@kali:~/Downloads/introseccon/look_into_the_past/etc# cat shadow | grep user
+user:KI6VWx09JJ:18011:0:99999:7:::
+```
+
+There's the text we needed! `$pass2` = `KI6VWx09JJ`
+
+2 down, 1 do go. On to find `$pass3`!
 
 ## Documents
 
