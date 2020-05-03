@@ -88,18 +88,80 @@ Let's start by `$pass1`.
 
 The first part of the password has been encoded in an image and then moved to `~/Pictures/`, so let's have a look at what we find there.
 
-In this folder, there was a picture of a lovely dog, and a hidden previous version of the same image file:
+In this folder, there was a picture of Doge, and a hidden previous version of the same image file:
 ![](Pictures.png)
 
 This is what the image looked like, can you spot `$pass1` in there?
+
 ![Doggo](doggo.jpeg)
 
-Of course you can't.
+Of course you can't, it's embedded.
+
 Let's dive deeper in the image file.
+
 Just to be sure there's nothing weird going on, we ran `file` and `binwalk` on it to make sure it was a valid PNG file.
+
 Now there are a few ways to find the hidden text.
 
-We can use steghide as the original user did. In this case we simply type this:
+We can use steghide as the original user did. In this case we simply type this to examine the file:
+
+```console
+root@kali:~/look_into_the_past/home/User/Pictures# steghide info doggo.jpeg 
+"doggo.jpeg":
+  format: jpeg
+  capacity: 1.2 KB
+Try to get information about embedded data ? (y/n) y
+Enter passphrase: 
+  embedded file "steganopayload213658.txt":
+    size: 11.0 Byte
+    encrypted: rijndael-128, cbc
+    compressed: yes
+```
+
+We found the embedded file that *should* contain the `$pass1` we're looking for. To extract that file:
+
+```console
+root@kali:~/look_into_the_past/home/User/Pictures# steghide extract -sf doggo.jpeg 
+Enter passphrase: 
+wrote extracted data to "steganopayload213658.txt".
+```
+
+Then a quick cat of the extracted file:
+```console
+root@kali:~/look_into_the_past/home/User/Pictures# cat steganopayload213658.txt 
+JXrTLzijLb
+```
+
+And there you go! `$pass1` = `JXrTLzijLb`
+
+Let's save this for later and now go hunting for `$pass2`.
+
+For those interested, there were a few other ways to find this hidden text, of course.
+One of them was to download the file and use an online image decoder such as:
+https://futureboy.us/stegano/decode.pl
+
+Actually, running the `strings` command on the backup of the image file, `._doggo.jpeg`, reveals this:
+```console
+root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Pictures# strings ._doggo.jpeg 
+Mac OS X        
+ATTR;
+com.apple.quarantine
+com.apple.lastuseddate#PS
+com.apple.macl
+%com.apple.metadata:kMDItemWhereFroms
+0083;5e3c53d6;Firefox;5EAD01A4-7C4C-451B-A64F-7461A0A651A9
+bplist00
+&https://futureboy.us/stegano/encode.pl_
+*https://futureboy.us/stegano/encinput.html
+This resource fork intentionally left blank   
+```
+
+So that was probably an intentional hint to help those who couldn't or wouldn't use `steghide`.
+
+* * *
+
+## $pass2 - New user
+
 
 
 
