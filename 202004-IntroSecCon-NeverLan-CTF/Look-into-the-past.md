@@ -89,10 +89,18 @@ Let's start by `$pass1`.
 The first part of the password has been encoded in an image and then moved to `~/Pictures/`, so let's have a look at what we find there.
 
 In this folder, there was a picture of a lovely dog, and a hidden previous version of the same image file:
-!(Pictures.png)
+![](Pictures.png)
 
 This is what the image looked like, can you spot `$pass1` in there?
 ![Doggo](doggo.jpeg)
+
+Of course you can't.
+Let's dive deeper in the image file.
+Just to be sure there's nothing weird going on, we ran `file` and `binwalk` on it to make sure it was a valid PNG file.
+Now there are a few ways to find the hidden text.
+
+We can use steghide as the original user did. In this case we simply type this:
+
 
 
 ## Documents
