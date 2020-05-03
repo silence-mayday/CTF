@@ -173,7 +173,9 @@ So that was probably an intentional hint to help those who couldn't or wouldn't 
 ## $pass2 - New user
 
 As we saw in the `.bash_history` file:
-> useradd -p '$pass2'  user
+```console
+useradd -p '$pass2'  user
+```
 
 A user was added, called `user`, and the password assigned to this user was `$pass2`.
 Let's do a quick `grep` of the `/etc/shadow` file which contains the local machine's users' password hashes:
