@@ -88,6 +88,11 @@ Let's start by `$pass1`.
 
 The first part of the password has been encoded in an image and then moved to `~/Pictures/`, so let's have a look at what we find there.
 
+In this folder, there was a picture of a lovely dog, and a hidden previous version of the same image file:
+!(Pictures.png)
+
+This is what the image looked like, can you spot `$pass1` in there?
+![Doggo](doggo.jpeg)
 
 
 ## Documents
@@ -113,20 +118,6 @@ libssl-flag.txt.enc: openssl enc'd data with salted password
 
 How are we going to decode this? We need to look for more clues.
 
-## Pictures
 
-In this folder, there was a picture of a lovely dog, and a hidden previous version of the same picture:
-
-```console
-root@kali:~/look_into_the_past/home/User/Pictures# ll
-total 36
-drwxr-xr-x 2 bob bob  4096 Feb  8 11:24 .
-drwxr-xr-x 9 bob bob  4096 Feb  8 11:24 ..
--rw-r--r-- 1 bob bob  4096 Feb  8 11:24 ._doggo.jpeg
--rw-r--r-- 1 bob bob 21404 Feb  6 13:33 doggo.jpeg
-```
-
-This is what the image looked like, not much help here:
-![Doggo](doggo.jpeg)
 
 So what do we do with images usually in CTFs? Of course we're tempted to search for hidden messages!
