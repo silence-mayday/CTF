@@ -101,9 +101,9 @@ Let's dive deeper in the image file.
 
 Just to be sure there's nothing weird going on, we ran `file` and `binwalk` on it to make sure it was a valid PNG file.
 
-Now there are a few ways to find the hidden text.
+There were a few ways to find the hidden text.
 
-We can use steghide as the original user did. In this case we simply type this to examine the file:
+We could use steghide as the original user did. In this case we simply needed to type this to examine the file:
 
 ```console
 root@kali:~/look_into_the_past/home/User/Pictures# steghide info doggo.jpeg 
@@ -126,7 +126,7 @@ Enter passphrase:
 wrote extracted data to "steganopayload213658.txt".
 ```
 
-Then a quick cat of the extracted file:
+Then a quick `cat` of the extracted file:
 ```console
 root@kali:~/look_into_the_past/home/User/Pictures# cat steganopayload213658.txt 
 JXrTLzijLb
@@ -137,8 +137,8 @@ And there you go! `$pass1` = `JXrTLzijLb`
 Let's save this for later and now go hunting for `$pass2`.
 
 For those interested, there were a few other ways to find this hidden text, of course.
-One of them was to download the file and use an online image decoder such as:
-https://futureboy.us/stegano/decode.pl
+One of them was to upload the image file in an online image decoder such as:
+![](https://futureboy.us/stegano/decode.pl)
 
 Actually, running the `strings` command on the backup of the image file, `._doggo.jpeg`, reveals this:
 ```console
