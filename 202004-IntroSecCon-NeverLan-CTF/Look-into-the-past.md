@@ -206,17 +206,17 @@ As we saw in the `.bash_history` file:
 useradd -p '$pass2'  user
 ```
 
-A user was added, called `user`, and the password assigned to this user was `$pass2`.
-Let's do a quick `grep` of the `/etc/shadow` file which contains the local machine's users' password hashes:
+A user was added to this host, simply called `user`, and the password assigned to this user was `$pass2`.
+We executed a quick `grep` of the `/etc/shadow` file which contained the local machine's users' password hashes:
 
 ```
 root@kali:~/look_into_the_past/etc# cat shadow | grep user
 user:KI6VWx09JJ:18011:0:99999:7:::
 ```
 
-There's the text we needed! `$pass2` = `KI6VWx09JJ`
+There was the text we needed! `$pass2` = `KI6VWx09JJ`
 
-2 down, 1 do go. On to find `$pass3`!
+2 down, 1 to go. We marched on to hunt down `$pass3`!
 
 * * *
 
@@ -228,8 +228,8 @@ sqlite3 /opt/table.db "INSERT INTO passwords values ('1', $pass3)"
 tar -zcf /opt/table.db.tar.gz /opt/table.db
 ```
 
-So on we go to `/opt/` to try to query the SQLite database that should be sitting there.
-Sure enough, there's a tar'd database file:
+So we navigated to `/opt/` to try to query the SQLite database that hopefully would be sitting there.
+Sure enough, there was a tar'd database file:
 ```
 root@kali:~/look_into_the_past/opt# ll
 total 12
@@ -238,16 +238,16 @@ drwxr-xr-x 20 bob bob 4096 Feb  8 11:24 ..
 -rw-r--r--  1 bob bob  366 Feb  6 13:33 table.db.tar.gz
 ```
 
-After untaring it, we end up with `table.db`. Time to see what's in there.
+After untaring it, we ended up with `table.db`. It was time to see what was in there.
 The command to query a SQLite database is really simple:
 
 ```
 root@kali:~/look_into_the_past/opt# sqlite3 table.db "select * from passwords"
 1|nBNfDKbP5n
 ```
-There's our `$pass3`, it's `nBNfDKbP5n`!
+And there was our `$pass3` => `nBNfDKbP5n`!
 
-A sloppier way to find this password, which I tried before properly querying the database, was to use `strings` on the database file:
+A sloppier way to find this password, which I had foolishly tried before properly querying the database, was to use `strings` on the database file:
 ```
 root@kali:~/look_into_the_past/opt# strings table.db
 SQLite format 3
@@ -256,9 +256,9 @@ CREATE TABLE passwords (ID INT PRIMARY KEY      NOT NULL, PASS TEXT      NOT NUL
 indexsqlite_autoindex_passwords_1passwords
 	!nBNfDKbP5n
 ```
-The password is there, but this is not the recommended way to search for this if you have access to the database :)
+As you can see, the password is there, but this is not the recommended way to search for information in a SQLite database file, especially if you have access to the database :)
 
-Ok so now we've found `$pass1`, `$pass2`, and `$pass3`. Let's decode the file that's holding the flag!
+Ok so we had found `$pass1`, `$pass2`, and `$pass3`. It was time to decode the file that was holding the flag hostage!
 
 * * *
 
@@ -272,7 +272,7 @@ openssl enc -aes-256-cbc -salt -in flag.txt -out flag.txt.enc -k $(cat $pass1)$p
 ass2$pass3
 ```
 
-So let's head to the `~/Documents/` folder and see what's in there:
+So we headed to the `~/Documents/` folder and checked its contents:
 
 ```
 root@kali:~/look_into_the_past/home/User# ll Documents/
@@ -284,7 +284,7 @@ drwxr-xr-x 9 bob bob 4096 Feb  8 11:24 ..
 root@kali:~/look_into_the_past/home/User# 
 ```
 
-Hurray! There's our flag! Ok, we knew it would be encoded or we would have saved time by going there straight away. But we'll get this thing decoded.
+Hurray! There was our flag! Ok, we knew it would be encoded or we would have saved time by going there straight away. But we knew we were close to solving this.
 Using the `file` command, we learned that both files were openssl encoded, with salt:
 
 ```
@@ -293,7 +293,7 @@ flag.txt.enc:        openssl enc'd data with salted password
 libssl-flag.txt.enc: openssl enc'd data with salted password
 ```
 
-`binwalk` can also be used to make sure:
+`binwalk` also helped confirm this:
 ```
 root@kali:~/look_into_the_past/home/User/Documents# binwalk flag.txt.enc 
 
@@ -303,7 +303,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 
-From reading the `.bash_history` file, we knew that the decryption password was the concatenation of the 3 passwords we had previously found.
+From reading the `.bash_history` file, we already knew that the decryption password was the concatenation of the 3 passwords we had previously found.
 `$pass1` = `JXrTLzijLb`
 
 `$pass2` = `KI6VWx09JJ`
@@ -345,3 +345,5 @@ root@kali:~/look_into_the_past/home/User/Documents#
 
 The flag was `flag{h1st0ry_1n_th3_m4k1ng}`.
 
+If you're reading this and are also an InfoSec student like me, hopefully you learned something from this write-up.
+Thanks for reading!
