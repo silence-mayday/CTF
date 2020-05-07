@@ -156,9 +156,9 @@ Let's save this for later and now go hunting for `$pass2`.
 
 For those interested, there were a few other ways to find this hidden text, of course.
 One of them was to upload the image file in an online image decoder such as:
-![](https://futureboy.us/stegano/decode.pl)
+![Steganography Tools](https://futureboy.us/stegano/)
 
-Actually, running the `strings` command on the backup of the image file, `._doggo.jpeg`, reveals this:
+I already knew a few online tools that help decoding hidden files in images files but in this case, running the `strings` command on the backup of the image file, `._doggo.jpeg`, revealed this:
 ```
 root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Pictures# strings ._doggo.jpeg 
 Mac OS X        
