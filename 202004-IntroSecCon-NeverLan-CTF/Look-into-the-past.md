@@ -304,6 +304,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 
 From reading the `.bash_history` file, we already knew that the decryption password was the concatenation of the 3 passwords we had previously found.
+
 `$pass1` = `JXrTLzijLb`
 
 `$pass2` = `KI6VWx09JJ`
