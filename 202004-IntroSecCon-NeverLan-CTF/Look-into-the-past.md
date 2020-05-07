@@ -99,7 +99,15 @@ Let's start by `$pass1`.
 The first part of the password has been encoded in an image and then moved to `~/Pictures/`, so let's have a look at what we find there.
 
 In this folder, there was a picture of Doge, and a hidden previous version of the same image file:
-![](Pictures.png)
+
+```
+root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Pictures# ll
+total 40
+drwxr-xr-x 2 bob  bob   4096 May  2 23:58 .
+drwxr-xr-x 9 bob  bob   4096 Feb  8 11:24 ..
+-rw-r--r-- 1 bob  bob   4096 Feb  8 11:24 ._doggo.jpeg
+-rw-r--r-- 1 bob  bob  21404 Feb  6 13:33 doggo.jpeg
+```
 
 This is what the image looked like, can you spot `$pass1` in there?
 
