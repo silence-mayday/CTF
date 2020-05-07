@@ -201,7 +201,7 @@ There's the text we needed! `$pass2` = `KI6VWx09JJ`
 
 * * *
 
-## $pass3 - 
+## $pass3 - SQLite
 
 Here is what was in the `.bash_history` file:
 ```
