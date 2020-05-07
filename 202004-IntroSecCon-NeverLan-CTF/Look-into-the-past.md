@@ -266,11 +266,51 @@ root@kali:~/look_into_the_past/home/User#
 ```
 
 Hurray! There's our flag! Ok, so, we knew it would be encoded or we would have saved some time by going there straight away.
-Using the `File` command, we learned that both files were openssl encoded, with salt:
+Using the `file` command, we learned that both files were openssl encoded, with salt:
 
 ```
 root@kali:~/look_into_the_past/home/User/Documents# file *
 flag.txt.enc:        openssl enc'd data with salted password
 libssl-flag.txt.enc: openssl enc'd data with salted password
 ```
+
+So from the `.bash_history` file, we know that the decryption password is the concatenation of the 3 passwords we found.
+`$pass1` = `JXrTLzijLb`
+`$pass2` = `KI6VWx09JJ`
+`$pass3` = `nBNfDKbP5n`
+
+So the encryption password is `JXrTLzijLbKI6VWx09JJnBNfDKbP5n`
+
+Let's try decoding the file now:
+
+```
+root@kali:~look_into_the_past/home/User/Documents# openssl enc -d -aes-256-cbc -in flag.txt.enc -out flag.txt
+enter aes-256-cbc decryption password:
+*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+root@kali:~/look_into_the_past/home/User/Documents#
+```
+
+When asked for the decryption password, we entered the concatenation of the 3 passwords, and it worked, there's our flag!
+
+```
+root@kali:~/look_into_the_past/home/User/Documents# ll
+total 20
+drwxr-xr-x 2 bob  bob  4096 May  6 22:18 .
+drwxr-xr-x 9 bob  bob  4096 Feb  8 11:24 ..
+-rw-r--r-- 1 root root   28 May  6 22:18 flag.txt
+-rw-r--r-- 1 bob  bob    48 Feb  8 11:50 flag.txt.enc
+-rw-r--r-- 1 bob  bob    48 Feb  6 13:33 libssl-flag.txt.enc
+root@kali:~/look_into_the_past/home/User/Documents# 
+```
+
+Now a quick peek:
+
+```
+root@kali:~/look_into_the_past/home/User/Documents# cat flag.txt
+flag{h1st0ry_1n_th3_m4k1ng}
+root@kali:~/look_into_the_past/home/User/Documents# 
+```
+
+The flag was `flag{h1st0ry_1n_th3_m4k1ng}`
 
