@@ -175,6 +175,7 @@ We saved this for later and went on hunting for `$pass2`.
 
 For those interested, there were a few other ways to find this hidden text, of course.
 One of them was to upload the image file in an online image decoder such as:
+
 [Steganography Tools](https://futureboy.us/stegano/)
 
 I already knew a few online tools that help decoding hidden files in image files but in this case, running the `strings` command on the backup of the image file, `._doggo.jpeg`, revealed this:
