@@ -345,5 +345,4 @@ root@kali:~/look_into_the_past/home/User/Documents#
 
 The flag was `flag{h1st0ry_1n_th3_m4k1ng}`.
 
-If you're reading this and are also an InfoSec student like me, hopefully you learned something from this write-up.
-Thanks for reading!
+Hopefully, you learned something from this write-up. Thanks for reading!
