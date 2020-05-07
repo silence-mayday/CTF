@@ -265,7 +265,7 @@ drwxr-xr-x 9 bob bob 4096 Feb  8 11:24 ..
 root@kali:~/look_into_the_past/home/User# 
 ```
 
-Hurray! There's our flag! Ok, so, we knew it would be encoded or we would have saved some time by going there straight away.
+Hurray! There's our flag! Ok, we knew it would be encoded or we would have saved time by going there straight away. But we'll get this thing decoded.
 Using the `file` command, we learned that both files were openssl encoded, with salt:
 
 ```
@@ -273,6 +273,16 @@ root@kali:~/look_into_the_past/home/User/Documents# file *
 flag.txt.enc:        openssl enc'd data with salted password
 libssl-flag.txt.enc: openssl enc'd data with salted password
 ```
+
+`binwalk` can also be used to make sure:
+```
+root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Documents# binwalk flag.txt.enc 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             OpenSSL encryption, salted, salt: 0x9CCBF4C9C874BF7C
+```
+
 
 So from the `.bash_history` file, we know that the decryption password is the concatenation of the 3 passwords we found.
 `$pass1` = `JXrTLzijLb`
