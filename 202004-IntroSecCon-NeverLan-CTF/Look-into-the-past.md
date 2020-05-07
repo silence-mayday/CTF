@@ -88,7 +88,7 @@ As we can see, during this user's last bash session, at some point they:
 * **Lines 3 & 4** used `steghide` to embed `$pass1` into an image and then moved this image file to ~/Pictures
 * **Line 5** created a user on this machine called `user` and assigned `$pass2` to this user.
 * **Lines 6 & 7** inserted `$pass3` into the `passwords` table of a SQLite 3 database in the `/opt/` folder and then tar'd the file.
-* **Line 8** cleaned up by deleting the file or folder `$pass1` and removed the 2 variables `$pass2` and `$pass2` from memory.
+* **Line 8** cleaned up by deleting the file or folder `$pass1` and removed the 2 variables `$pass2` and `$pass3` from memory.
 
 To decode the flag.txt file, we need to assemble the password by finding the values of `$pass1`, `$pass2`, and `$pass3`.
 
@@ -199,7 +199,61 @@ There's the text we needed! `$pass2` = `KI6VWx09JJ`
 
 2 down, 1 do go. On to find `$pass3`!
 
-## Documents
+* * *
+
+## $pass3 - 
+
+Here is what was in the `.bash_history` file:
+```
+sqlite3 /opt/table.db "INSERT INTO passwords values ('1', $pass3)"
+tar -zcf /opt/table.db.tar.gz /opt/table.db
+```
+
+So on we go to `/opt/` to try to query the SQLite database that should be sitting there.
+Sure enough, there's a tar'd database file:
+```
+root@kali:~/look_into_the_past/opt# ll
+total 12
+drwxr-xr-x  2 bob bob 4096 May  6 21:35 .
+drwxr-xr-x 20 bob bob 4096 Feb  8 11:24 ..
+-rw-r--r--  1 bob bob  366 Feb  6 13:33 table.db.tar.gz
+```
+
+After untaring it, we end up with `table.db`. Time to see what's in there.
+The command to query a SQLite database is really simple:
+
+```
+root@kali:~/look_into_the_past/opt# sqlite3 table.db "select * from passwords"
+1|nBNfDKbP5n
+```
+There's our `$pass3`, it's `nBNfDKbP5n`!
+
+A sloppier way to find this password, which I tried before properly querying the database, was to use Strings on the database file:
+```
+root@kali:~/look_into_the_past/opt# strings table.db
+SQLite format 3
+1tablepasswordspasswords
+CREATE TABLE passwords (ID INT PRIMARY KEY      NOT NULL, PASS TEXT      NOT NULL)1
+indexsqlite_autoindex_passwords_1passwords
+	!nBNfDKbP5n
+```
+The password is there, but this is not the recommended way to search for this if you have access to the database :)
+
+Ok so now we've found `$pass1`, `$pass2`, and `$pass3`. Let's decode the file that's holding the flag!
+
+* * *
+
+## Decoding flag.txt.enc
+
+Remember what was in the `.bash_history` file?
+
+```
+cd Documents
+openssl enc -aes-256-cbc -salt -in flag.txt -out flag.txt.enc -k $(cat $pass1)$p
+ass2$pass3
+```
+
+So let's head to the `~/Documents/` folder and see what's in there:
 
 ```
 root@kali:~/look_into_the_past/home/User# ll Documents/
@@ -211,8 +265,10 @@ drwxr-xr-x 9 bob bob 4096 Feb  8 11:24 ..
 root@kali:~/look_into_the_past/home/User# 
 ```
 
-Hurray! There's our flag! Ok, so, obviously it's encoded and they're not going to make it easy for us to read that file.
+Hurray! There's our flag! Ok, so, we knew it would be encoded or we would have saved some time by going there straight away.
 Using the `File` command, we learned that both files were openssl encoded, with salt:
+
+
 
 ```
 root@kali:~/look_into_the_past/home/User/Documents# file *
@@ -220,8 +276,3 @@ flag.txt.enc:        openssl enc'd data with salted password
 libssl-flag.txt.enc: openssl enc'd data with salted password
 ```
 
-How are we going to decode this? We need to look for more clues.
-
-
-
-So what do we do with images usually in CTFs? Of course we're tempted to search for hidden messages!
