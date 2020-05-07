@@ -351,4 +351,6 @@ root@kali:~/look_into_the_past/home/User/Documents#
 
 The flag was `flag{h1st0ry_1n_th3_m4k1ng}`.
 
+This challenge was solved as a team by Silence Mayday, A1.exe, and moosehead.
+
 Hopefully, you learned something from this write-up. Thanks for reading!
