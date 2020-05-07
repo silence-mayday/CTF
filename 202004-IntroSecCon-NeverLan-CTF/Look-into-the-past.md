@@ -7,13 +7,13 @@ April 27, 2020
 In my opinion, this was one of the most interesting challences of this CTF as it was a mix of a few different sub-challenges to solve.
 
 We were given a snapshop of a computer, in .tar format. After downloading it, we extracted its content:
-```console
+```
 root@kali:~# tar xvf look_into_the_past.tar 
 ```
 
 Sure enough, the archive contained a computer snapshot with most usual folders that we find on linux hosts:
 
-```console
+```
 root@kali:~# ll look_into_the_past
 total 80
 drwxr-xr-x 20 bob  bob  4096 Feb  8 11:24 .
@@ -42,7 +42,7 @@ Given the title of the challenge "Look into the past", we first thought that we 
 
 Bingo!
 
-```console
+```
 root@kali:~/look_into_the_past/home/User# ll
 total 52
 drwxr-xr-x 9 bob bob 4096 Feb  8 11:24 .
@@ -67,7 +67,7 @@ Also, we checked the `.bash_history` file for any interesting information and fo
 
 This is the full dump of what was in the `.bash_history` file:
 
-```console
+```
 cd Documents
 openssl enc -aes-256-cbc -salt -in flag.txt -out flag.txt.enc -k $(cat $pass1)$p
 ass2$pass3
@@ -115,7 +115,7 @@ There were a few ways to find the hidden text.
 
 We could use steghide as the original user did. In this case we simply needed to type this to examine the file:
 
-```console
+```
 root@kali:~/look_into_the_past/home/User/Pictures# steghide info doggo.jpeg 
 "doggo.jpeg":
   format: jpeg
@@ -137,7 +137,7 @@ wrote extracted data to "steganopayload213658.txt".
 ```
 
 Then a quick `cat` of the extracted file:
-```console
+```
 root@kali:~/look_into_the_past/home/User/Pictures# cat steganopayload213658.txt 
 JXrTLzijLb
 ```
@@ -151,7 +151,7 @@ One of them was to upload the image file in an online image decoder such as:
 ![](https://futureboy.us/stegano/decode.pl)
 
 Actually, running the `strings` command on the backup of the image file, `._doggo.jpeg`, reveals this:
-```console
+```
 root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Pictures# strings ._doggo.jpeg 
 Mac OS X        
 ATTR;
@@ -180,7 +180,7 @@ useradd -p '$pass2'  user
 A user was added, called `user`, and the password assigned to this user was `$pass2`.
 Let's do a quick `grep` of the `/etc/shadow` file which contains the local machine's users' password hashes:
 
-```console
+```
 root@kali:~/look_into_the_past/etc# cat shadow | grep user
 user:KI6VWx09JJ:18011:0:99999:7:::
 ```
@@ -191,7 +191,7 @@ There's the text we needed! `$pass2` = `KI6VWx09JJ`
 
 ## Documents
 
-```console
+```
 root@kali:~/look_into_the_past/home/User# ll Documents/
 total 16
 drwxr-xr-x 2 bob bob 4096 Feb  8 11:52 .
@@ -204,7 +204,7 @@ root@kali:~/look_into_the_past/home/User#
 Hurray! There's our flag! Ok, so, obviously it's encoded and they're not going to make it easy for us to read that file.
 Using the `File` command, we learned that both files were openssl encoded, with salt:
 
-```console
+```
 root@kali:~/look_into_the_past/home/User/Documents# file *
 flag.txt.enc:        openssl enc'd data with salted password
 libssl-flag.txt.enc: openssl enc'd data with salted password
