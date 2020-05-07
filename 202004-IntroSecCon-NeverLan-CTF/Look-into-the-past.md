@@ -176,6 +176,8 @@ This resource fork intentionally left blank
 
 So that was probably an intentional hint to help those who couldn't or wouldn't use `steghide`.
 
+If you want to try it out yourself, just download the picture above and upload it to that Steganography Tools webpage.
+
 * * *
 
 ## $pass2 - New user
