@@ -268,8 +268,6 @@ root@kali:~/look_into_the_past/home/User#
 Hurray! There's our flag! Ok, so, we knew it would be encoded or we would have saved some time by going there straight away.
 Using the `File` command, we learned that both files were openssl encoded, with salt:
 
-
-
 ```
 root@kali:~/look_into_the_past/home/User/Documents# file *
 flag.txt.enc:        openssl enc'd data with salted password
