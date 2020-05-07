@@ -119,11 +119,27 @@ Of course you can't, it's embedded.
 
 Let's dive deeper in the image file.
 
-Just to be sure there's nothing weird going on, we ran `file` and `binwalk` on it to make sure it was a valid PNG file.
+Just to be sure there was nothing weird going on, we ran `file` and `binwalk` on it to make sure it was a valid JPEG file and not some other file type hiding behind a fake extension.
 
-There were a few ways to find the hidden text.
+```
+root@kali:~/look_into_the_past/home/User/Pictures# file doggo.jpeg 
+doggo.jpeg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, baseline, precision 8, 400x400, components 3
+root@kali:~/look_into_the_past/home/User/Pictures#
+```
 
-We could use steghide as the original user did. In this case we simply needed to type this to examine the file:
+```
+root@kali:~/look_into_the_past/home/User/Pictures# binwalk doggo.jpeg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+
+root@kali:~/look_into_the_past/home/User/Pictures#
+```
+
+There were a few ways to find the hidden text in the image file.
+
+One pretty obvious was was to use `steghide` as the original user did. In this case we simply needed to type this to examine the file:
 
 ```
 root@kali:~/look_into_the_past/home/User/Pictures# steghide info doggo.jpeg 
@@ -136,9 +152,10 @@ Enter passphrase:
     size: 11.0 Byte
     encrypted: rijndael-128, cbc
     compressed: yes
+root@kali:~/look_into_the_past/home/User/Pictures#
 ```
 
-We found the embedded file that *should* contain the `$pass1` we're looking for. To extract that file:
+We found the embedded file that we hoped would contain the `$pass1` we were looking for. To extract that file:
 
 ```
 root@kali:~/look_into_the_past/home/User/Pictures# steghide extract -sf doggo.jpeg 
@@ -152,15 +169,15 @@ root@kali:~/look_into_the_past/home/User/Pictures# cat steganopayload213658.txt
 JXrTLzijLb
 ```
 
-And there you go! `$pass1` = `JXrTLzijLb`
+And there it was: `$pass1` = `JXrTLzijLb`
 
-Let's save this for later and now go hunting for `$pass2`.
+We saved this for later and went on hunting for `$pass2`.
 
 For those interested, there were a few other ways to find this hidden text, of course.
 One of them was to upload the image file in an online image decoder such as:
 ![Steganography Tools](https://futureboy.us/stegano/)
 
-I already knew a few online tools that help decoding hidden files in images files but in this case, running the `strings` command on the backup of the image file, `._doggo.jpeg`, revealed this:
+I already knew a few online tools that help decoding hidden files in image files but in this case, running the `strings` command on the backup of the image file, `._doggo.jpeg`, revealed this:
 ```
 root@kali:~/look_into_the_past/home/User/Pictures# strings ._doggo.jpeg 
 Mac OS X        
@@ -176,7 +193,7 @@ bplist00
 This resource fork intentionally left blank   
 ```
 
-So that was probably an intentional hint to help those who couldn't or wouldn't use `steghide`.
+As you can see, there was a reference to the tool I mentioned above. This was probably a hint to help those who couldn't or wouldn't use `steghide`.
 
 If you want to try it out yourself, just download the picture above and upload it to that Steganography Tools webpage.
 
