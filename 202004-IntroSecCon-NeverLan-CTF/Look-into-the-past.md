@@ -61,7 +61,7 @@ drwxr-xr-x 2 bob bob 4096 Feb  8 11:24 Videos
 ```
 
 We went through all of these folders and found that only **Documents** and **Pictures** were of interest.
-Also, we checked the `.bash_history` file for any interesting information and found a few clues. Obviously, "Look into the past" meant to go check out the bash history. So let's look at that first.
+Also, we checked the `.bash_history` file for any interesting information and found a few clues. Obviously, "Look into the past" meant to go check out the bash history. So we directed our attention towards that file first.
 
 ## .bash_history
 
@@ -90,18 +90,20 @@ As we can see, during this user's last bash session, at some point they:
 * **Lines 6 & 7** inserted `$pass3` into the `passwords` table of a SQLite 3 database in the `/opt/` folder and then tar'd the file.
 * **Line 8** cleaned up by deleting the file or folder `$pass1` and removed the 2 variables `$pass2` and `$pass3` from memory.
 
-To decode the flag.txt file, we need to assemble the password by finding the values of `$pass1`, `$pass2`, and `$pass3`.
+To decode the flag.txt file, we needed to assemble the decryption password by finding the values of `$pass1`, `$pass2`, and `$pass3`.
 
-Let's start by `$pass1`.
+We started off with `$pass1`.
+
+* * *
 
 ## $pass1 - Steganography
 
-The first part of the password has been encoded in an image and then moved to `~/Pictures/`, so let's have a look at what we find there.
+The first part of the password has been encoded in an image and then moved to `~/Pictures/`, so we went to have a look at what we would find there.
 
-In this folder, there was a picture of Doge, and a hidden previous version of the same image file:
+In this folder, there was a picture of Doge, and a hidden backup of the same image file:
 
 ```
-root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Pictures# ll
+root@kali:~/look_into_the_past/home/User/Pictures# ll
 total 40
 drwxr-xr-x 2 bob  bob   4096 May  2 23:58 .
 drwxr-xr-x 9 bob  bob   4096 Feb  8 11:24 ..
@@ -160,7 +162,7 @@ One of them was to upload the image file in an online image decoder such as:
 
 I already knew a few online tools that help decoding hidden files in images files but in this case, running the `strings` command on the backup of the image file, `._doggo.jpeg`, revealed this:
 ```
-root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Pictures# strings ._doggo.jpeg 
+root@kali:~/look_into_the_past/home/User/Pictures# strings ._doggo.jpeg 
 Mac OS X        
 ATTR;
 com.apple.quarantine
