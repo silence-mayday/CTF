@@ -228,7 +228,7 @@ root@kali:~/look_into_the_past/opt# sqlite3 table.db "select * from passwords"
 ```
 There's our `$pass3`, it's `nBNfDKbP5n`!
 
-A sloppier way to find this password, which I tried before properly querying the database, was to use Strings on the database file:
+A sloppier way to find this password, which I tried before properly querying the database, was to use `strings` on the database file:
 ```
 root@kali:~/look_into_the_past/opt# strings table.db
 SQLite format 3
