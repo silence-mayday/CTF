@@ -130,7 +130,7 @@ Enter passphrase:
 
 We found the embedded file that *should* contain the `$pass1` we're looking for. To extract that file:
 
-```console
+```
 root@kali:~/look_into_the_past/home/User/Pictures# steghide extract -sf doggo.jpeg 
 Enter passphrase: 
 wrote extracted data to "steganopayload213658.txt".
