@@ -276,7 +276,7 @@ libssl-flag.txt.enc: openssl enc'd data with salted password
 
 `binwalk` can also be used to make sure:
 ```
-root@kali:~/Downloads/introseccon/look_into_the_past/home/User/Documents# binwalk flag.txt.enc 
+root@kali:~/look_into_the_past/home/User/Documents# binwalk flag.txt.enc 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
@@ -284,14 +284,14 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 
-So from the `.bash_history` file, we know that the decryption password is the concatenation of the 3 passwords we found.
+From reading the `.bash_history` file, we knew that the decryption password was the concatenation of the 3 passwords we had previously found.
 `$pass1` = `JXrTLzijLb`
 `$pass2` = `KI6VWx09JJ`
 `$pass3` = `nBNfDKbP5n`
 
-So the encryption password is `JXrTLzijLbKI6VWx09JJnBNfDKbP5n`
+So the full encryption password was `JXrTLzijLbKI6VWx09JJnBNfDKbP5n`
 
-Let's try decoding the file now:
+We tried decoding the file with the following `openssl` command:
 
 ```
 root@kali:~look_into_the_past/home/User/Documents# openssl enc -d -aes-256-cbc -in flag.txt.enc -out flag.txt
@@ -301,7 +301,7 @@ Using -iter or -pbkdf2 would be better.
 root@kali:~/look_into_the_past/home/User/Documents#
 ```
 
-When asked for the decryption password, we entered the concatenation of the 3 passwords, and it worked, there's our flag!
+When asked for the decryption password, we entered the concatenation of the 3 passwords, and it worked, there was our flag!
 
 ```
 root@kali:~/look_into_the_past/home/User/Documents# ll
@@ -314,7 +314,7 @@ drwxr-xr-x 9 bob  bob  4096 Feb  8 11:24 ..
 root@kali:~/look_into_the_past/home/User/Documents# 
 ```
 
-Now a quick peek:
+A quick peek finally revealed the flag to us:
 
 ```
 root@kali:~/look_into_the_past/home/User/Documents# cat flag.txt
@@ -322,5 +322,5 @@ flag{h1st0ry_1n_th3_m4k1ng}
 root@kali:~/look_into_the_past/home/User/Documents# 
 ```
 
-The flag was `flag{h1st0ry_1n_th3_m4k1ng}`
+The flag was `flag{h1st0ry_1n_th3_m4k1ng}`.
 
